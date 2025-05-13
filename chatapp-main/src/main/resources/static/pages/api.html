@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ChatApp API Documentation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #4f46e5;
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px 40px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            color: #4f46e5;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .endpoint {
+            background-color: #f9fafb;
+            border-left: 5px solid #4f46e5;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+
+        .endpoint pre {
+            margin: 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>ChatApp API</h1>
+        <p>RESTful API Documentation for Developers</p>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h2>🔐 Login</h2>
+            <div class="endpoint">
+                <pre>POST /app.login</pre>
+                <p>Request body:</p>
+                <pre>{
+  "username": "example",
+  "password": "password123"
+}</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🧍 Signup</h2>
+            <div class="endpoint">
+                <pre>POST /signup</pre>
+                <p>Request body:</p>
+                <pre>{
+  "username": "newuser",
+  "password": "pass123",
+  "email": "email@example.com"
+}</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>👥 Find Friend</h2>
+            <div class="endpoint">
+                <pre>POST /app/{session_id}/find</pre>
+                <p>Request body:</p>
+                <pre>{
+  "info": "search_username_or_email"
+}</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💬 Friend List</h2>
+            <div class="endpoint">
+                <pre>GET /app/friend/{session_id}/listfriend</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>➕ Send Friend Request</h2>
+            <div class="endpoint">
+                <pre>POST /app/friend/{session_id}/{user_id}/sendRequest</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>✔️ Accept Friend Request</h2>
+            <div class="endpoint">
+                <pre>POST /app/friend/{session_id}/{user_id}/accept</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>❌ Refuse Friend Request</h2>
+            <div class="endpoint">
+                <pre>POST /app/friend/{session_id}/{user_id}/refuse</pre>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🗑️ Delete Session</h2>
+            <div class="endpoint">
+                <pre>DELETE /app/session/{session_id}/delete</pre>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2025 ChatApp API Docs
+    </footer>
+</body>
+</html>

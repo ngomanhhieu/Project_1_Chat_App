@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V1nf4k 1.0 beta</title>
+    <link rel="stylesheet" href="login/login.css">
+</head>
+
+<body>
+    <header>
+        <h1 class="heading"> Welcome to our first Chat-App </h1>
+    </header>
+
+    <!-- Main wrapper -->
+    <div class="main-wrapper">
+        <!-- Left section for image -->
+        <div class="image-section">
+            <img src="/back.jpg" alt="Chat Preview">
+        </div>
+
+        <!-- Main container (Narrower) -->
+        <div class="container">
+            <div class="form-section">
+                <div class="login-box">
+                    <label class="form-label">TotTalk</label>
+                    <input type="email" class="emaillog ele" placeholder="Phone number, username, or email">
+                    <input type="password" class="passwordlog ele" placeholder="Password">
+
+                    <!-- Show password toggle -->
+                    <div class="password-container">
+                        <label class="show-password-label">
+                            <input type="checkbox" id="show-password"> Show Password
+                        </label>
+                    </div>
+
+                    <button class="clkbtnlogin" disabled>Login</button>
+                </div>
+
+                <!-- Signup & Forgot Password section -->
+                <div class="signup-section">
+                    <div class="hr-line">
+                        <span>OR</span>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                    <div class="signup-line">
+                        <span>Don't have an account?</span>
+                        <a href="/signup" class="signup-link">Sign up</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="login/login.js"></script>
+
+    <!-- Footer -->
+	    <div class="footer-links">
+	        <a href="/about">About</a>
+	        <a href="/blog">Blog</a>
+	        <a href="/jobs">Jobs</a>
+	        <a href="/help">Help</a>
+	        <a href="/api">API</a>
+	        <a href="/privacy">Privacy</a>
+	        <a href="/terms">Terms</a>
+	        <a href="/location">Location</a>
+	        <a href="/lite">TotTalk Lite</a>
+	    </div>
+        <div class="footer-bottom">
+            <select class="language-selector">
+                <option value="en">English</option>
+                <option value="vi">Vietnamese</option>
+                <option value="fr">French</option>
+                <option value="es">Spanish</option>
+            </select>
+            <span>© 2025 Chatapp from OurTeam </span>
+        </div>
+    </footer>
+</body>
+</html>

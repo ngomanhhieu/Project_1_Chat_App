@@ -1,0 +1,236 @@
+/* Center the page content */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+/* Main wrapper for image + form */
+.main-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 1000px;
+}
+
+/* Login form container */
+.container {
+    flex: 1;
+    max-width: 250px;
+    padding: 20px;
+    background: black; /* Same as background */
+    border-radius: 10px;
+}
+
+/* V1nf4k label */
+.form-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Form inputs */
+.emaillog, .passwordlog {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid gray; /* Add border */
+    background: black; /* Match background color */
+    color: white;
+    border-radius: 5px;
+}
+
+/* Login button with blue color and rounded corners */
+.clkbtnlogin {
+    width: 100%;
+    padding: 12px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 10px; /* Rounded corners */
+    cursor: pointer;
+    transition: 0.3s;
+}
+/* Đảm bảo form input và nút Login có cùng chiều rộng */
+.emaillog, .passwordlog, .clkbtnlogin {
+    width: 100%;  /* Đảm bảo full width */
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid gray;
+    background: black;
+    color: white;
+    border-radius: 5px;
+    box-sizing: border-box; /* Đảm bảo padding không làm thay đổi kích thước */
+}
+
+
+.clkbtnlogin:hover {
+    background-color: #0056b3;
+}
+
+/* Horizontal line with OR */
+.hr-line {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.hr-line::before,
+.hr-line::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid gray;
+    margin: 5px;
+}
+
+.hr-line span {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
+
+/* "Don't have an account?" in the same line with "Sign up" */
+.signup-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: 25px; /* Added more space */
+}
+
+.signup-line span {
+    color: white;
+}
+
+.signup-line .signup-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.signup-line .signup-link:hover {
+    text-decoration: underline;
+}
+
+/* Increased spacing between Forgot password & Sign up */
+.forgot-password {
+    color: white;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    margin-bottom: 25px; /* More space */
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    position: relative;
+    bottom: -30px;
+}
+
+/* Footer links */
+.footer-links {
+    text-align: center;
+    margin-top: 40px; /* Dịch footer xuống */
+    font-size: 12px; /* Giữ font nhỏ */
+    color: gray; /* Màu chữ xám */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px; /* Dãn cách giữa các phần */
+}
+
+/* Footer links không có gạch chân */
+.footer-links a {
+    color: gray; /* Màu xám */
+    text-decoration: none; /* Bỏ gạch chân */
+    padding: 5px; /* Thêm khoảng cách để dễ bấm */
+}
+
+.footer-links a:hover {
+    color: #bbbbbb; /* Màu xám sáng hơn khi hover */
+}
+
+
+/* Copyright text with language dropdown in the same line */
+.footer-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: gray;
+    margin-top: 20px; /* Move footer lower */
+}
+
+/* Language dropdown positioned at the end */
+.language-selector {
+    background: black;
+    color: white;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+/* Main wrapper for image + form */
+.main-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 1000px;
+    gap: 40px; /* Tạo khoảng cách giữa ảnh và form */
+}
+
+/* Left image section */
+.image-section {
+    flex: 1;
+    text-align: center;
+}
+
+.image-section img {
+    width: 500px;  /* Điều chỉnh kích thước phù hợp */
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover; /* Giữ nguyên tỷ lệ ảnh */
+}
+.password-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.show-password-label {
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+}
+
+#show-password {
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+
+
