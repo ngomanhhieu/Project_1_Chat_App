@@ -23,9 +23,11 @@ public class userController {
     // ✅ Tiện ích kiểm tra session
     private void checkSession(String session_id) {
         if (!sessionService.checkSession(session_id)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "❌ Invalid or expired session");
+            // Redirect đến trang login
+            throw new ResponseStatusException(HttpStatus.FOUND, "Redirecting to login page");
         }
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody userService.loginInfo loginInfo){
@@ -48,6 +50,16 @@ public class userController {
     public List<userService.friend> getFriends(@PathVariable String session_id){
         checkSession(session_id); // ✅ check
         return userService.getListFriend(session_id);
+    }
+
+    @GetMapping("/user/{user_id}/name")
+    public ResponseEntity<String> getUserName(@PathVariable String user_id) {
+        String name = userService.getUserNameFromId(user_id);
+        if (name != null) {
+            return ResponseEntity.ok(name);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
     }
 
     @GetMapping("/friend/{session_id}/loadRequestReceived")

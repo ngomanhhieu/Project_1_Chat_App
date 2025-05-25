@@ -2,7 +2,6 @@ package com.project1.chatapp.config.webSocketConfig;
 
 import org.springframework.web.socket.*;
 import org.springframework.stereotype.Component;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -39,30 +38,35 @@ public class webSocketHandler implements org.springframework.web.socket.WebSocke
 
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
-        // Handle incoming messages from the client
         if (message instanceof TextMessage) {
             String payload = ((TextMessage) message).getPayload();
             System.out.println("Received message: " + payload);
 
-            // Optionally, broadcast the message to all connected sessions
+            // Ensure WebSocket session is open before broadcasting
             for (WebSocketSession s : sessionMapping.values()) {
-                s.sendMessage(new TextMessage("Broadcast: " + payload));
+                if (s.isOpen()) {
+                    s.sendMessage(new TextMessage("Broadcast: " + payload));
+                } else {
+                    System.out.println("Skipping closed session.");
+                }
             }
         }
     }
 
     @Override
     public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-        // Log the error
         System.err.println("Transport error occurred: " + exception.getMessage());
 
-        // Optionally, close the session if an error occurs
-        session.close(CloseStatus.SERVER_ERROR.withReason("Transport error occurred"));
+        // Ensure session is removed from mapping before closing
+        sessionMapping.values().remove(session);
+
+        if (session.isOpen()) {
+            session.close(CloseStatus.SERVER_ERROR.withReason("Transport error occurred"));
+        }
     }
 
     @Override
     public boolean supportsPartialMessages() {
-        // Return false, assuming the messages are not partial
-        return false;
+        return false; // Assuming messages are not partial
     }
 }

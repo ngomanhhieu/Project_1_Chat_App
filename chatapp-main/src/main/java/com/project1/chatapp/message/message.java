@@ -15,12 +15,12 @@ import java.sql.Timestamp;
 public class message {
 
 	private String name;
-    private String user_id;
-    private String message;
-    private String chat_id;
-    private Timestamp time;
-    private boolean sentBySession;
-    public String getName() {
+	private String user_id;
+	private String message;
+	private String chat_id;
+	private Timestamp time;
+	private boolean sentBySession;
+	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
@@ -55,5 +55,14 @@ public class message {
 	}
 	public void setSentBySession(boolean sentBySession) {
 		this.sentBySession = sentBySession;
+	}
+
+	public void setSessionId(String sessionId) {
+	}
+
+	public void setChatId(String chatId) {
+	}
+
+	public void setMessageType(String file) {
 	}
 }

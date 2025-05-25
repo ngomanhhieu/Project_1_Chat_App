@@ -54,8 +54,6 @@ public class sessionService {
             throw new RuntimeException("❌ Error checking session", e);
         }
     }
-    
-    
 
     /**
      * Lấy session_id từ user_id.
@@ -82,12 +80,18 @@ public class sessionService {
 
             stmt.setString(1, session_id);
             try (ResultSet rs = stmt.executeQuery()) {
-                return rs.next() ? rs.getString("user_id") : null;
+                if (rs.next()) {
+                    return rs.getString("user_id");
+                } else {
+                    // Có thể trả về null hoặc ném ngoại lệ tùy mục đích
+                    return null;
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException("❌ Error getting user ID from session", e);
         }
     }
+
 
     public void deleteSession(String session_id) {
         String query = "DELETE FROM master.dbo.sessions WHERE session_id = ?";

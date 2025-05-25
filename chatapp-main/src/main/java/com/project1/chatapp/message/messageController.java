@@ -8,15 +8,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 import java.util.Map;
@@ -37,30 +36,30 @@ public class messageController {
     @Component
     public static class sessionInfo{
         public String getSession_id() {
-			return session_id;
-		}
-		public void setSession_id(String session_id) {
-			this.session_id = session_id;
-		}
-		public String getChat_id() {
-			return chat_id;
-		}
-		public void setChat_id(String chat_id) {
-			this.chat_id = chat_id;
-		}
-		public String getMessage() {
-			return message;
-		}
-		public void setMessage(String message) {
-			this.message = message;
-		}
-		public String getTimestamp() {
-			return timestamp;
-		}
-		public void setTimestamp(String timestamp) {
-			this.timestamp = timestamp;
-		}
-		private String session_id;
+            return session_id;
+        }
+        public void setSession_id(String session_id) {
+            this.session_id = session_id;
+        }
+        public String getChat_id() {
+            return chat_id;
+        }
+        public void setChat_id(String chat_id) {
+            this.chat_id = chat_id;
+        }
+        public String getMessage() {
+            return message;
+        }
+        public void setMessage(String message) {
+            this.message = message;
+        }
+        public String getTimestamp() {
+            return timestamp;
+        }
+        public void setTimestamp(String timestamp) {
+            this.timestamp = timestamp;
+        }
+        private String session_id;
         private String chat_id;
         private String message;
         private String timestamp;
@@ -93,5 +92,4 @@ public class messageController {
     public Map<String, Object> listMessages(@PathVariable("session_id") String session_id, @PathVariable("chat_id")String chat_id) {
         return messageService.listMessages(session_id, chat_id).join();
     }
-
 }

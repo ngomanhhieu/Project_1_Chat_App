@@ -1,6 +1,8 @@
 package com.project1.chatapp.chatroom;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.project1.chatapp.sessions.sessionService;
 import com.project1.chatapp.user.userService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +14,15 @@ import java.util.List;
 public class chatroomController {
     @Autowired
     private chatroomService chatroomService;
+    private sessionService sessionService;
     @PostMapping("/app/{session_id}/createChatroom")
-    public ResponseEntity<String> createChatroom(@PathVariable String session_id, @RequestBody chatroomService.newGroup newGroup) {
-        chatroomService.createChatRoom(newGroup, session_id);
-        return ResponseEntity.ok("OK");
+    public ResponseEntity<String> createChatroom(
+            @PathVariable String session_id,
+            @RequestBody chatroomService.newGroup newGroup) {
+        String chatId = chatroomService.createChatRoom(newGroup, session_id);
+        return ResponseEntity.ok(chatId); // 👈 Trả về UUID của chatroom
     }
+
     @GetMapping("/app/{session_id}/loadchat")
     public List<chatroomService.chatroomInfo> loadChat(@PathVariable String session_id) {
         return chatroomService.listChatRoom(session_id);
@@ -52,4 +58,16 @@ public class chatroomController {
         return chatroomService.listUsersInChatroom(session_id,chat_id);
     }
     
+    @GetMapping("/app/chat/existBetween/{sessionid}/{userId2}")
+    public ResponseEntity<String> getPrivateChatBetweenUsers(
+            @PathVariable String sessionid,
+            @PathVariable String userId2) {
+        try {
+            String chatId = chatroomService.getPrivateChatBetweenUsers(sessionid, userId2);
+            return ResponseEntity.ok(chatId != null ? chatId : "");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("Error: " + e.getMessage());
+        }
+    }
 }

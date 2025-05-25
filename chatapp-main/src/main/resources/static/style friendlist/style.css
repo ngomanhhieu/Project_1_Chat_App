@@ -221,6 +221,21 @@ body {
     list-style: none; /* Bỏ dấu chấm trước các item */
 }
 
+.friend-button {
+    margin: 5px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.friend-button:hover {
+    background-color: #45a049;
+}
+
 .friend-item {
     display: flex;
     flex-direction: column;

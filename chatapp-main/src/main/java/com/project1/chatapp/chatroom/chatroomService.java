@@ -52,29 +52,34 @@ public class chatroomService {
     private String idGenerator(){
         return UUID.randomUUID().toString();
     }
-    public void createChatRoom(newGroup newGroup,String session_id){
-        if (sessionService.checkSession(session_id)){
-            String createChatRoomQuery="insert into master.dbo.chatroom (chat_id,chat_name) values (?,?)";
-            String addUserToChatroomQuery="insert into master.dbo.joinedchat (chat_id,user_id) values (?,?)";
+    public String createChatRoom(newGroup newGroup, String session_id) {
+        if (sessionService.checkSession(session_id)) {
+            String createChatRoomQuery = "INSERT INTO master.dbo.chatroom (chat_id, chat_name) VALUES (?, ?)";
+            String addUserToChatroomQuery = "INSERT INTO master.dbo.joinedchat (chat_id, user_id) VALUES (?, ?)";
             String id_created = idGenerator();
-            try{
-                Connection connectionCreateChatRoom=dataSource.getConnection();
-                PreparedStatement preparedStatementCreateChatRoom=connectionCreateChatRoom.prepareStatement(createChatRoomQuery);
-                preparedStatementCreateChatRoom.setString(1,id_created);
-                preparedStatementCreateChatRoom.setString(2, newGroup.name);
-                preparedStatementCreateChatRoom.executeUpdate();
-                PreparedStatement preparedStatementAddUserToChatroom=connectionCreateChatRoom.prepareStatement(addUserToChatroomQuery);
-                preparedStatementAddUserToChatroom.setString(1,id_created);
-                preparedStatementAddUserToChatroom.setString(2,sessionService.getUserIdFromSession(session_id));
-                preparedStatementAddUserToChatroom.executeUpdate();
-                connectionCreateChatRoom.close();
-                preparedStatementCreateChatRoom.close();
-                preparedStatementAddUserToChatroom.close();
+
+            try (Connection connection = dataSource.getConnection();
+                 PreparedStatement stmtCreate = connection.prepareStatement(createChatRoomQuery);
+                 PreparedStatement stmtAddUser = connection.prepareStatement(addUserToChatroomQuery)) {
+
+                stmtCreate.setString(1, id_created);
+                stmtCreate.setString(2, newGroup.name);
+                stmtCreate.executeUpdate();
+
+                stmtAddUser.setString(1, id_created);
+                stmtAddUser.setString(2, sessionService.getUserIdFromSession(session_id));
+                stmtAddUser.executeUpdate();
+
+                return id_created;
+
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
         }
+
+        return null;
     }
+
 
     public List<chatroomInfo> listChatRoom(String session_id) {
         if (sessionService.checkSession(session_id)) {
@@ -284,4 +289,45 @@ public class chatroomService {
             return list;
         }
     }
+    public String getPrivateChatBetweenUsers(String sessionId, String userId2) {
+        String userId1 = null;
+        String chatId = null;
+
+        // 1. Lấy user_id từ session
+        String sqlGetUserId = "SELECT user_id FROM sessions WHERE session_id = ?";
+
+        String sqlCheckPrivateChat =" SELECT TOP 1 chat_id FROM joinedchat WHERE user_id IN (?, ?) GROUP BY chat_id HAVING COUNT(DISTINCT user_id) = 2;";
+
+        try (Connection conn = dataSource.getConnection()) {
+
+            // Lấy userId1 từ session
+            try (PreparedStatement ps1 = conn.prepareStatement(sqlGetUserId)) {
+                ps1.setString(1, sessionId);
+                try (ResultSet rs1 = ps1.executeQuery()) {
+                    if (rs1.next()) {
+                        userId1 = rs1.getString("user_id");
+                    } else {
+                        return null; // Không tìm thấy user
+                    }
+                }
+            }
+
+            // Kiểm tra xem có đoạn chat riêng nào không
+            try (PreparedStatement ps2 = conn.prepareStatement(sqlCheckPrivateChat)) {
+                ps2.setString(1, userId1);
+                ps2.setString(2, userId2);
+                try (ResultSet rs2 = ps2.executeQuery()) {
+                    if (rs2.next()) {
+                        chatId = rs2.getString("chat_id");
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return chatId; // null nếu không có
+    }
+
 }

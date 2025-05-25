@@ -80,4 +80,3 @@ document.addEventListener("DOMContentLoaded", () => {
         passwordInput.type = showPasswordToggle.checked ? "text" : "password";
     });
 });
-

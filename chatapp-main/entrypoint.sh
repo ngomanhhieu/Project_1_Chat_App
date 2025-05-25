@@ -35,5 +35,4 @@ else
 fi
 
 # Keep the container running
-echo "🟢 Container is running..."
 exec tail -f /dev/null

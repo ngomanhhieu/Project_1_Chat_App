@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="style index/style.css">
     <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@5.0.0/bundles/stomp.umd.js"></script>
     <title>Chat</title>
+	<style>
+	.active-chatroom {
+	    background-color: #f0f0f0;
+	    border-left: 4px solid #3498db;
+	}
+	</style>
+
 </head>
 
 <body>
@@ -104,6 +111,40 @@
 <!-- end: Chat -->
 
 <script src="js index/script.js"></script>
+
+
+<script>
+	window.addEventListener('DOMContentLoaded', () => {
+	    const urlParams = new URLSearchParams(window.location.search);
+	    const session_id = urlParams.get('id');   // lấy session_id từ ?id=...
+	    const chatId = urlParams.get('chatId');   // lấy chatId từ ?chatId=...
+
+	    if(session_id && chatId) {
+	        loadchat(session_id, chatId);
+	    } else {
+	        console.error('Missing session_id or chatId in URL');
+	    }
+	});
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const toggleBtn = document.getElementById('toggleUploadBtn');
+      const uploadForm = document.getElementById('uploadForm');
+
+      if (toggleBtn && uploadForm) {
+        toggleBtn.addEventListener('click', function () {
+          if (uploadForm.style.display === 'none' || uploadForm.style.display === '') {
+            uploadForm.style.display = 'flex';
+          } else {
+            uploadForm.style.display = 'none';
+          }
+        });
+      }
+    });
+</script>
+
+
+
 </body>
 
 </html>
