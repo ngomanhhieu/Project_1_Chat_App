@@ -575,31 +575,48 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 	        responseData.messages.forEach(message => {
                 let chatHTML = '';
-                // Nếu message là URL file (hoặc type === 'FILE'), thì hiển thị link/file
-                if ((message.type && message.type === 'FILE') || message.message.startsWith('/uploads/')) {
-
+                // Nếu message là file dạng "url|filename"
+                if ((message.type === 'FILE' || message.message.includes('|'))) {
+                    let fileUrl = message.message;
+                    let fileName = "";
+                    if (fileUrl.includes('|')) {
+                        const parts = fileUrl.split('|');
+                        fileUrl = parts[0];
+                        fileName = parts[1];
+                    }
                     chatHTML = `
                         <li class="conversation-item ${message.sentBySession ? '' : 'me'}">
-                            <div class="conversation-item-side">
-                                <img class="conversation-item-image" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb" alt="">
-                            </div>
                             <div class="conversation-item-content">
-                                <div class="conversation-item-wrapper">
-                                    <div class="conversation-item-box">
-                                        <div class="conversation-item-text">
-                                            <p><a href="${message.message}" target="_blank">📎 File đính kèm</a></p>
-                                            <div class="conversation-item-time">${message.time}</div>
-                                        </div>
+                                <div class="conversation-item-box">
+                                    <div class="conversation-item-text">
+                                        <p><strong>${escapeHtml(message.name)}:</strong>
+                                        <a href="${fileUrl}" target="_blank" style="color:#5f5fff; text-decoration:underline;">${fileName}</a></p>
+                                        <div class="conversation-item-time">${message.time}</div>
                                     </div>
                                 </div>
                             </div>
                         </li>
                     `;
+
                 } else {
-                    // Hiển thị message thường như cũ
+                    // Tin nhắn text bình thường
+                    chatHTML = `
+                        <li class="conversation-item ${message.sentBySession ? '' : 'me'}">
+                            <div class="conversation-item-content">
+                                <div class="conversation-item-box">
+                                    <div class="conversation-item-text">
+                                        <p>${escapeHtml(message.name)}: ${escapeHtml(message.message)}</p>
+                                        <div class="conversation-item-time">${message.time}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    `;
                 }
                 chatGrid.insertAdjacentHTML('beforeend', chatHTML);
             });
+
+
 
 
 	        // Cuộn xuống tin nhắn mới nhất
@@ -1248,9 +1265,17 @@ document.addEventListener('click', (event) => {
         fetch('/upload-chat-file', { method: 'POST', body: formData })
             .then(res => res.json())
             .then(data => {
-                if (data.url) {
-                    // Gửi luôn tin nhắn qua WebSocket như thường, nội dung là URL
-                    sendMessage(session_id, chat_id_current, data.url, new Date(), 'FILE');
+                if (data.url && data.filename) {
+                    // Gửi message qua WebSocket (hoặc API gửi message)
+                    sendMessage(session_id, chat_id_current, data.url + "|" + data.filename, new Date(), 'FILE');
+
+                    // Đóng popup upload
+                    document.getElementById('uploadFilePopup-chat').style.display = 'none';
+
+                    // Load lại message để hiện file
+                    setTimeout(() => {
+                        loadMessages(session_id, chat_id_current);
+                    }, 300);
                 } else {
                     alert(data.error || 'Lỗi upload file');
                 }
@@ -1258,6 +1283,7 @@ document.addEventListener('click', (event) => {
             .catch(e => alert('Lỗi khi upload file'));
     }
 });
+
 
 
 

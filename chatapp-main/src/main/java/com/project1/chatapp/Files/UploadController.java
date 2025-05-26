@@ -20,6 +20,7 @@ import java.util.UUID;
 public class UploadController {
 
     private static final String UPLOAD_DIR = "uploads/";
+
     //Nhan file qua End-point
     @PostMapping("/upload-chat-file")
     public Map<String, String> upload(@RequestParam("file") MultipartFile file) {
@@ -29,12 +30,14 @@ public class UploadController {
             return resp;
         }
         try {
-            String filename = UUID.randomUUID() + "_" + file.getOriginalFilename(); //tranh de len file cu
-            Path uploadPath = Paths.get(UPLOAD_DIR);
+            String originalFilename = file.getOriginalFilename();
+            String filename = UUID.randomUUID() + "_" + originalFilename;
+            Path uploadPath = Paths.get("uploads");
             if (!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
             Path filePath = uploadPath.resolve(filename);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-            resp.put("url", "/uploads/" + filename); //tra ve link file cho frontend
+            resp.put("url", "/uploads/" + filename);
+            resp.put("filename", originalFilename); // quan trọng
             return resp;
         } catch (IOException e) {
             resp.put("error", "Upload failed");
