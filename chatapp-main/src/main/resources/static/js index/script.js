@@ -1259,6 +1259,13 @@ document.addEventListener('click', (event) => {
             alert('Chọn file trước khi upload!');
             return;
         }
+        const file = fileInput.files[0];
+        const maxSize = 2 * 1024 * 1024; // 2MB
+        if (file.size > maxSize) {
+            alert('File vượt quá dung lượng 2MB!');
+            fileInput.value = '';
+            return;
+        }
         //chon file va up file len server
         const formData = new FormData();
         formData.append('file', fileInput.files[0]);

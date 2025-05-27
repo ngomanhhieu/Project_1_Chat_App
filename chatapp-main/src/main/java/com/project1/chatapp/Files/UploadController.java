@@ -29,6 +29,11 @@ public class UploadController {
             resp.put("error", "No file uploaded");
             return resp;
         }
+        // Kiểm tra giới hạn dung lượng
+        if (file.getSize() > 2 * 1024 * 1024) {
+            resp.put("error", "File vượt quá dung lượng 2MB!");
+            return resp;
+        }
         try {
             String originalFilename = file.getOriginalFilename();
             String filename = UUID.randomUUID() + "_" + originalFilename;
@@ -43,6 +48,7 @@ public class UploadController {
             resp.put("error", "Upload failed");
             return resp;
         }
+
     }
 }
 
